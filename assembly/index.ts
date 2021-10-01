@@ -16,7 +16,7 @@ export function sayHi(): void {
   // Logs are not persistently stored on the blockchain, but produced by the blockchain runtime.
   // It's helpful to use logs for debugging your functions or when you need to get some info
   // from the change methods (since change methods don't return values to the front-end).
-  logging.log(sender + " says \"Hi!\"");
+  logging.log(" says \"Hi!\"");
   // storage is a helper class that allows contracts to modify the persistent state
   // and read from it. setString allows you to persitently store a string value for a given string key.
   // We'll store the last sender of this contract who called this method.
@@ -28,4 +28,10 @@ export function sayHi(): void {
 export function whoSaidHi(): string | null {
   // getString returns a string value for a given string key.
   return storage.getString(LAST_SENDER_KEY);
+}
+
+export function fytf(): void{
+
+  const sender = context.sender;
+  logging.log(sender + " says \"Hi!\"");
 }
