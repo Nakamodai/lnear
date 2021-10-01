@@ -1,101 +1,93 @@
-voting
-==================
+Example of NEAR Wallet integration
+==================================
 
-This [Vue] app was initialized with [create-near-app]
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/near-examples/wallet-example)
 
+<!-- MAGIC COMMENT: DO NOT DELETE! Everything above this line is hidden on NEAR Examples page -->
 
-Quick Start
-===========
+This example demonstrates how to integrate your application with NEAR Wallet.
+The contract is quite simple. It can store the account_id of last sender and return it. It also shows how you can debug contracts using logs.
 
-To run this project locally:
+## Getting started
 
-1. Prerequisites: Make sure you've installed [Node.js] ≥ 12
-2. Install dependencies: `npm install`
-3. Run the local development server: `npm run dev` (see `package.json` for a
-   full list of `scripts` you can run with `npm`)
+There are two ways to run this project. The first is the quick and a good way to instantly become familiar with this example.
+Once familiar, the next step is for a developer to create their own NEAR account and deploy the contract to testnet. This is covered in the following section.
 
-Now you'll have a local development environment backed by the NEAR TestNet!
+There's a button at the top of this file that says "Open in Gitpod." This will open the project in a new tab with an integrated development environment. The other option is to clone this repository and follow the same instructions.
 
-Go ahead and play with the app and the code. As you make code changes, the app will automatically reload.
+### Quickest option
 
+1. Install dependencies:
 
-Exploring The Code
-==================
+```
+yarn --frozen-lockfile
+```
 
-1. The "backend" code lives in the `/contract` folder. See the README there for
-   more info.
-2. The frontend code lives in the `/src` folder. `/src/main.js` is a great
-   place to start exploring.
-3. Tests: there are different kinds of tests for the frontend and the smart
-   contract. See `contract/README` for info about how it's tested. The frontend
-   code gets tested with [jest]. You can run both of these at once with `npm
-   run test`.
+2. Build and deploy this smart contract to a development account. This development account will be created automatically and is not intended for reuse:
 
+```
+yarn dev
+```
 
-Deploy
-======
+Your command line which will display a link to localhost similar to:
+```bash
+Server running at http://localhost:1234
+```
 
-Every smart contract in NEAR has its [own associated account][NEAR accounts]. When you run `npm run dev`, your smart contract gets deployed to the live NEAR TestNet with a throwaway account. When you're ready to make it permanent, here's how.
+Please open that link your browser to continue and see how to log in with NEAR Wallet in a simple webapp.
 
+### Standard deploy option
+In this second option, the smart contract will get deployed to a specific account created with the NEAR Wallet.
 
-Step 0: Install near-cli (optional)
--------------------------------------
+1. Ensure `near-cli` is installed by running:
 
-[near-cli] is a command line interface (CLI) for interacting with the NEAR blockchain. It was installed to the local `node_modules` folder when you ran `npm install`, but for best ergonomics you may want to install it globally:
+```
+near --version
+```
 
-    npm install --global near-cli
+If needed, install `near-cli`:
 
-Or, if you'd rather use the locally-installed version, you can prefix all `near` commands with `npx`
+```
+npm install near-cli -g
+```
 
-Ensure that it's installed with `near --version` (or `npx near --version`)
+2. If you do not have a NEAR account, please create one with [NEAR Wallet](https://wallet.nearprotocol.com).
 
+In the project root, login with `near-cli` by following the instructions after this command:
 
-Step 1: Create an account for the contract
-------------------------------------------
+```
+near login
+```
 
-Each account on NEAR can have at most one contract deployed to it. If you've already created an account such as `your-name.testnet`, you can deploy your contract to `voting.your-name.testnet`. Assuming you've already created an account on [NEAR Wallet], here's how to create `voting.your-name.testnet`:
+3. Modify the top of `src/config.js`, changing the `CONTRACT_NAME` to be the NEAR account that was just used to log in.
 
-1. Authorize NEAR CLI, following the commands it gives you:
+```javascript
+…
+const CONTRACT_NAME = process.env.CONTRACT_NAME || 'YOUR_ACCOUNT_NAME_HERE'; /* TODO: fill this in! */
+…
+```
 
-      near login
+4. Start the example!
 
-2. Create a subaccount (replace `YOUR-NAME` below with your actual account name):
+```
+yarn start
+```
 
-      near create-account voting.YOUR-NAME.testnet --masterAccount YOUR-NAME.testnet
+## To Test
 
+```
+yarn asp // as-pect tests
+yarn jest // integration tests
+yarn test // both
+```
 
-Step 2: set contract name in code
----------------------------------
+## To Explore
 
-Modify the line in `src/config.js` that sets the account name of the contract. Set it to the account id you used above.
-
-    const CONTRACT_NAME = process.env.CONTRACT_NAME || 'voting.YOUR-NAME.testnet'
-
-
-Step 3: deploy!
----------------
-
-One command:
-
-    npm run deploy
-
-As you can see in `package.json`, this does two things:
-
-1. builds & deploys smart contract to NEAR TestNet
-2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
-
-
-Troubleshooting
-===============
-
-On Windows, if you're seeing an error containing `EPERM` it may be related to spaces in your path. Please see [this issue](https://github.com/zkat/npx/issues/209) for more details.
+- `assembly/main.ts` for the contract code
+- `src/index.html` for the front-end HTML
+- `src/main.js` for the JavaScript front-end code and how to integrate contracts
+- `src/test.js` for the JS tests for the contract
 
 
-  [Vue]: https://vuejs.org/
-  [create-near-app]: https://github.com/near/create-near-app
-  [Node.js]: https://nodejs.org/en/download/package-manager/
-  [jest]: https://jestjs.io/
-  [NEAR accounts]: https://docs.near.org/docs/concepts/account
-  [NEAR Wallet]: https://wallet.testnet.near.org/
-  [near-cli]: https://github.com/near/near-cli
-  [gh-pages]: https://github.com/tschaub/gh-pages
+## Data collection
+By using Gitpod in this project, you agree to opt-in to basic, anonymous analytics. No personal information is transmitted. Instead, these usage statistics aid in discovering potential bugs and user flow information.
